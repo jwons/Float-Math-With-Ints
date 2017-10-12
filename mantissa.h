@@ -2,12 +2,13 @@
 
 const int ASCII_ZERO_DECIMAL = 48;
 const int ASCII_NINE_DECIMAL = 57;
+const int ASCII_SPACE_DECIMAL = 32;
 
 //This functions loops through the numString and has three features:
 //1. Will return false if there is an invalid character
 //2. Stores the start point of the mantissa so that it can be extracted
 //3. Stores the length from the mantissa so that the right amount of numbers are converted 
-bool verifyCharsAndLength(char numString[], int& pointOfMantissa, int& length);
+bool verifyCharsAndLength(char numString[], int& pointOfMantissa, int& length, bool& isNeg);
 
 //This function will take the numString variable and extract the mantissa from it
 //The value of the numerator will be the interger version of what is after the decimal
@@ -21,8 +22,10 @@ bool mantissa(char numString[], int& numerator, int& denominator)
 	//This integer will be the length of the mantissa NOT including trailing zeros
 	int length = 0;
 
+	bool isNeg = false;
+
 	//If the c string is valid use the information from the verification to convert to an int
-	if (verifyCharsAndLength(numString, startOfMantissa, length))
+	if (verifyCharsAndLength(numString, startOfMantissa, length, isNeg))
 	{
 		retVal = true;
 
@@ -50,14 +53,18 @@ bool mantissa(char numString[], int& numerator, int& denominator)
 			denominator = 10;
 		}
 	}
-
+	if (isNeg)
+	{
+		numerator -= (numerator * 2);
+	}
 	return retVal;
 }
 
-bool verifyCharsAndLength(char numString[], int& startOfMantissa, int& length)
+bool verifyCharsAndLength(char numString[], int& startOfMantissa, int& length, bool& isNeg)
 {
 	const int DECIMAL_POINT = '.';
 	bool retVal = true;
+	bool hasCharactersitic = false;
 
 	//This number represents how many trailing zeros are in the c string
 	int numOfTrailingZeros = 0;
@@ -68,10 +75,17 @@ bool verifyCharsAndLength(char numString[], int& startOfMantissa, int& length)
 	//The mantissa is not found until after the decimal point, ignore everything up until then
 	while (numString[characteristicIndex] != DECIMAL_POINT)
 	{
-		//In case there is no mantissa in the array, just end the function
-		if (numString[length] == '\0')
+		if (numString[characteristicIndex] > ASCII_ZERO_DECIMAL && numString[characteristicIndex] <= ASCII_NINE_DECIMAL)
 		{
-			retVal = false;
+			isNeg = false;
+		}
+		if (numString[characteristicIndex] == '-' )
+		{
+			isNeg = true;
+		}
+		//In case there is no mantissa in the array, just end the function
+		if (numString[characteristicIndex] == '\0')
+		{
 			break;
 		}
 		//If nothing happens, increment the index so that the next element can be examined
@@ -97,12 +111,15 @@ bool verifyCharsAndLength(char numString[], int& startOfMantissa, int& length)
 		//Make sure it is within range of the ASCII char values for 0 through 9
 		if (!(numString[mantissaIndex] >= ASCII_ZERO_DECIMAL && numString[mantissaIndex] <= ASCII_NINE_DECIMAL))
 		{
-			retVal = false;
-			break;
+			if (numString[mantissaIndex] != ASCII_SPACE_DECIMAL)
+			{
+				retVal = false;
+				break;
+			}	
 		}
 
 		//If the number is a zero, it could be a trailing zero so increment the trailing zeros variable
-		if (numString[mantissaIndex] == ASCII_ZERO_DECIMAL)
+		if (numString[mantissaIndex] == ASCII_ZERO_DECIMAL || numString[mantissaIndex] == ASCII_SPACE_DECIMAL)
 		{
 			numOfTrailingZeros++;
 		}
