@@ -29,15 +29,29 @@ bool mantissa(char numString[], int& numerator, int& denominator) {
 	bool isNegative = false;
 
 	//assume that it is a valid mantissa
-	bool isValid = false;
+	bool isValid = true;
 
 	//these will be used later in the code for readability
 	const char ZERO = '0';
 	const char NINE = '9';
 	const char DECIMAL = '.';
+	const char NEGATIVE = '-';
 
 	int currentPosition = 0;
 	
+	//go through the array and make sure there is a valid number
+	while (numString[currentPosition] != '\0') {
+		if ((numString[currentPosition] < ZERO && numString[currentPosition] > NINE) &&
+				numString[currentPosition] != DECIMAL &&
+				numString[currentPosition] != NEGATIVE) {
+			isValid = false;
+		}
+		currentPosition++;
+	}
+
+
+	//reset the counter
+	currentPosition = 0;
 
 	//go through the array and find the decimal's location
 	//also go through and validate that this is a valid mantissa
@@ -50,7 +64,6 @@ bool mantissa(char numString[], int& numerator, int& denominator) {
 		//a numerical value then break out of the for loop and end the function
 		if (numString[currentPosition] == DECIMAL) {
 			if (numString[currentPosition + 1] >= ZERO && numString[currentPosition + 1] <= NINE) {
-				isValid = true;
 
 				//check to see if the numbered entered is a mantissa without the characteristic
 				//and if it is negative
