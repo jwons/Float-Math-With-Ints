@@ -56,7 +56,8 @@ bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char* result, int 
 	//finds a common denominator 
 
 	nfinal = n1 - n2;
-
+	if (nfinal == 0)
+		dfinal = 10;
 
 	//handels the diffrent casses 
 	mantissasubtraction(n1, n2, d1, d2, leftover, nfinal, dfinal, cfinal, ispos);
@@ -253,7 +254,8 @@ bool storevalues(int cfinal, int nfinal, int dfinal, char* result, int len, bool
 			//now dealing with the decimal part
 			int dlength = powerof10(dfinal);
 			int nlength = powerof10(nfinal);
-
+			if (nfinal == 0)
+				nlength = 1;
 
 			//this allows us to find where n should be inserted
 			//where the decimal starts eg .000[2]34
