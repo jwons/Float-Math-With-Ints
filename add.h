@@ -1,11 +1,7 @@
 #pragma once
 
-const int ASCII_ZERO = 48;
-const int ASCII_NINE = 57;
-const int ASCII_DECIMAL = 46;
-const int ASCII_NEGATIVE_SIGN = 45;
-
 bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len);
+bool isArrayLargeEnoughForResult(int c, int len);
 bool isPowerOf10(int d);
 void convertDenominatorToPowerOf10(int& c, int& n, int& d, int lengthOfDecimalPrecision);
 int determineDifferenceInPower(int& n1, int& d1, int& n2, int& d2);
@@ -16,11 +12,16 @@ using namespace std;
 
 bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 {
+	const int ASCII_x = 120;
+
+	bool retval = true;
+
 	//'x' will be the flag i will check for to help determine if all values were set in an array or not
 	for (int i = 0; i < len; i++)
 	{
-		result[i] = 'x';
+		result[i] = ASCII_x;
 	}
+	result[len - 1] = '\0';
 
 	//holds the flag if a decimal is terminating. Even if a number like 2/3 is non terminating, if the result array length is less than the INT_MAX / 10 then it is fine 
 	bool isTerminating = true;
@@ -49,8 +50,6 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 			isTerminating = false;
 		}
 	}
-
-	bool retval = true;
 
 	//hold the value of the differenceInPower between the highest order denominator and lowest order denominator
 	int differenceInPower = determineDifferenceInPower(n1, d1, n2, d2);
@@ -82,75 +81,115 @@ bool add(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 		}
 	}
 
-	//add the characteristics of 1 and 2 and the value of the wholeInteger to get the value of the number to the left of the decimal
-	int leftOfDecimal = c1 + c2 + wholeInteger;
-	int rightOfDecimal = remainder;
-
-	//creating an array to store the values of the converted numbers
-	char* arrayOfConvertedNumbers = new char[len];
-
-	//setting up to convert the integer into the result array of characters
-	int leftOfDecimalCounter = 0;
-	int testNumber = leftOfDecimal;
-
-	//calling a function that will convert the obtained characteristic integer into an array of character representation of the number
-	convertIntegerToCharacterArray(arrayOfConvertedNumbers, leftOfDecimalCounter, testNumber);
-
-	//after obtaining the result from the conversion, the numbers will be reversed and need to be swapped.
-	reverseArrayIntoResultArray(arrayOfConvertedNumbers, result, leftOfDecimalCounter, false, isNegative, isTerminating, len);
-
-	//delete the array used to assist with the setting of result
-	delete[] arrayOfConvertedNumbers;
-
-	//use the same tempArray pointer to create a new array 
-	arrayOfConvertedNumbers = new char[len];
-
-	//take care of the right of the decimal now
-	testNumber = rightOfDecimal;
-	int rightOfDecimalCounter = 0;
-
-	//calling a function that will convert the obtained characteristic integer into an array of character representation of the number
-	convertIntegerToCharacterArray(arrayOfConvertedNumbers, rightOfDecimalCounter, testNumber);
-
-	//because the function takes in an int& index, the rightOfDecimalCounter is still set and must be tallied up into the total number of characters
-	leftOfDecimalCounter += rightOfDecimalCounter;
-
-	//place the reversed contents of the array into result
-	reverseArrayIntoResultArray(arrayOfConvertedNumbers, result, leftOfDecimalCounter, true, isNegative, isTerminating, len);
-	
-	//endOfNumbersInArray will be changed to true once the last digit of a non terminating number is found
-	bool endOfNumbersInArray = false;
-
-	//this integer will be set to the last digit of the non terminating number once it is found so it can be copied to the rest of the array values that are still have 'x's
-	int lastNumberInArray = 0;
-
-	//if the number does not terminate then proceed to fill the rest of the array with the last decimal place value that was found in the result array
-	if (!isTerminating)
+	//before setting leftOfDecimal with an integer, make sure that the array is large enough to handle the current characteristics
+	if (!isArrayLargeEnoughForResult(c1, len))
 	{
-		for (int i = 0; i < len - 1; i++)
-		{
-			//while there are still only numbers found in the array...
-			if (!endOfNumbersInArray)
-			{
-				if (result[i] == 'x')
-				{
-					//if the end of the numbers in the decimal were found then signal the end was found and decrement i so the previous array value can be set to to lastNumberInArray
-					endOfNumbersInArray = true;
-					i--;
-					lastNumberInArray = result[i];
-				}
-			}
-			//once the end of the numbers was found in the array then set the remaining values in the array to the last decimal place value found
-			else
-			{
-				result[i] = lastNumberInArray;
-			}
-
-		}
+		retval = false;
 	}
 
-	//delete the array used to assist with the setting of result
-	delete[] arrayOfConvertedNumbers;
+	if (!isArrayLargeEnoughForResult(c2, len))
+	{
+		retval = false;
+	}
+
+	//add the characteristics of 1 and 2 and the value of the wholeInteger to get the value of the number to the left of the decimal
+	int leftOfDecimal = c1 + c2 + wholeInteger;
+
+	if (retval == true)
+	{
+		int rightOfDecimal = remainder;
+
+		//creating an array to store the values of the converted numbers
+		char* arrayOfConvertedNumbers = new char[len];
+
+		//setting up to convert the integer into the result array of characters
+		int leftOfDecimalCounter = 0;
+		int testNumber = leftOfDecimal;
+
+		//calling a function that will convert the obtained characteristic integer into an array of character representation of the number
+		convertIntegerToCharacterArray(arrayOfConvertedNumbers, leftOfDecimalCounter, testNumber);
+
+		//after obtaining the result from the conversion, the numbers will be reversed and need to be swapped.
+		reverseArrayIntoResultArray(arrayOfConvertedNumbers, result, leftOfDecimalCounter, false, isNegative, isTerminating, len);
+
+		//delete the array used to assist with the setting of result
+		delete[] arrayOfConvertedNumbers;
+
+		//use the same tempArray pointer to create a new array 
+		arrayOfConvertedNumbers = new char[len];
+
+		//take care of the right of the decimal now
+		testNumber = rightOfDecimal;
+		int rightOfDecimalCounter = 0;
+
+		//calling a function that will convert the obtained characteristic integer into an array of character representation of the number
+		convertIntegerToCharacterArray(arrayOfConvertedNumbers, rightOfDecimalCounter, testNumber);
+
+		//because the function takes in an int& index, the rightOfDecimalCounter is still set and must be tallied up into the total number of characters
+		leftOfDecimalCounter += rightOfDecimalCounter;
+
+		//place the reversed contents of the array into result
+		reverseArrayIntoResultArray(arrayOfConvertedNumbers, result, leftOfDecimalCounter, true, isNegative, isTerminating, len);
+
+		//endOfNumbersInArray will be changed to true once the last digit of a non terminating number is found
+		bool endOfNumbersInArray = false;
+
+		//this integer will be set to the last digit of the non terminating number once it is found so it can be copied to the rest of the array values that are still have 'x's
+		int lastNumberInArray = 0;
+
+		//if the number does not terminate then proceed to fill the rest of the array with the last decimal place value that was found in the result array
+		if (!isTerminating)
+		{
+			for (int i = 0; i < len - 1; i++)
+			{
+				//while there are still only numbers found in the array...
+				if (!endOfNumbersInArray)
+				{
+					if (result[i] == ASCII_x)
+					{
+						//if the end of the numbers in the decimal were found then signal the end was found and decrement i so the previous array value can be set to to lastNumberInArray
+						endOfNumbersInArray = true;
+						i--;
+						lastNumberInArray = result[i];
+					}
+				}
+				//once the end of the numbers was found in the array then set the remaining values in the array to the last decimal place value found
+				else
+				{
+					result[i] = lastNumberInArray;
+				}
+
+			}
+		}
+
+		//delete the array used to assist with the setting of result
+		delete[] arrayOfConvertedNumbers;
+	}
+
+	return retval;
+}
+
+bool isArrayLargeEnoughForResult(int c, int len)
+{
+	bool retval = true;
+
+	int placeValues = 1;
+
+	while (c > 0)
+	{
+		if (placeValues >= len)
+		{
+			retval = false;
+			break;
+		}
+		
+		else
+		{
+			placeValues *= 10;
+		}
+
+		c /= 10;
+	}
 
 	return retval;
 }
@@ -167,7 +206,7 @@ bool isPowerOf10(int d)
 	}
 
 	//if the denominator is any integer greater than 0 then determine if it is a power of 10
-		//this block of code wont know how to handle negative numbers which shouldnt occur in this function but may still need to be handled
+	//this block of code wont know how to handle negative numbers which shouldnt occur in this function but may still need to be handled
 	else
 	{
 		//this integer will be incremented to its following value in power of 10. ie 1(10^0), 10(10^1), 100(10^2)...
@@ -178,7 +217,7 @@ bool isPowerOf10(int d)
 		{
 			powerOfTen *= 10;
 		}
-		
+
 		//after the powerOfTen is set to a value that could show whether or not the denominator is a power of 10, divide it by 'powerOfTen'
 		//and if it the result is equivalent to 1, then the denominator is a power of ten
 		if (d / powerOfTen == 1)
@@ -261,7 +300,7 @@ void convertDenominatorToPowerOf10(int& c, int& n, int& d, int lengthOfDecimalPr
 	integerBuilder /= 10;
 
 	//convert numbers in arrayOfQuotientNumbers to a built up integer variable quotient and set it to n
-	for(int i = 0; i < numIterations; i++)
+	for (int i = 0; i < numIterations; i++)
 	{
 		//build up quotient by adding itself and the current digit multiplied by the place value
 		quotient += arrayOfQuotientNumbers[i] * integerBuilder;
@@ -271,7 +310,7 @@ void convertDenominatorToPowerOf10(int& c, int& n, int& d, int lengthOfDecimalPr
 
 	//set the numerator to the found quotient
 	n = quotient;
-	
+
 	delete[] arrayOfQuotientNumbers;
 }
 
@@ -311,10 +350,17 @@ int determineDifferenceInPower(int & n1, int & d1, int & n2, int & d2)
 
 void convertIntegerToCharacterArray(char arrayOfConvertedNumbers[], int &index, int testNumber)
 {
+	const int ASCII_ZERO = 48;
 	//if the number is negative, then set it to be the absolute value of itself
 	if (testNumber < 0)
 	{
 		testNumber = testNumber * -1;
+	}
+
+	if (testNumber == 0)
+	{
+		arrayOfConvertedNumbers[0] = ASCII_ZERO;
+		index += 1;
 	}
 
 	//loop through until the testNumber cannot be used anymore
@@ -332,6 +378,9 @@ void convertIntegerToCharacterArray(char arrayOfConvertedNumbers[], int &index, 
 //a counter to iterate through the arrays, and a boolean value to increment past a decimal point character
 void reverseArrayIntoResultArray(char arrayToReverse[], char resultArray[], int counter, bool isMantisa, bool isNegative, bool isTerminating, int len)
 {
+	const int ASCII_DECIMAL = 46;
+	const int ASCII_NEGATIVE_SIGN = 45;
+
 	//if working with the mantisa, use this technique
 	if (isMantisa)
 	{
@@ -355,7 +404,7 @@ void reverseArrayIntoResultArray(char arrayToReverse[], char resultArray[], int 
 			difference = difference * -1;
 			difference -= 1;
 		}
-	
+
 		while (difference >= 0)
 		{
 			//make sure only enough digits are reversed into the result that the array size allows for
@@ -368,8 +417,6 @@ void reverseArrayIntoResultArray(char arrayToReverse[], char resultArray[], int 
 			difference--;
 			reverseIndex++;
 		}
-
-		
 
 		//add a null terminator to the next element of resultArray if it is terminating. If it is not, leave it open ended so extra digits can be written to the array
 		if (isTerminating)
@@ -386,7 +433,7 @@ void reverseArrayIntoResultArray(char arrayToReverse[], char resultArray[], int 
 		//if the result is negative, then add a negative sign to the beginning of the number
 		if (isNegative)
 		{
-			resultArray[0] = '-';
+			resultArray[0] = ASCII_NEGATIVE_SIGN;
 			reverseIndex += 1;
 		}
 
@@ -400,7 +447,7 @@ void reverseArrayIntoResultArray(char arrayToReverse[], char resultArray[], int 
 		}
 
 		//add a decimal point to the next element of resultArray
-		resultArray[reverseIndex] = '.';
+		resultArray[reverseIndex] = ASCII_DECIMAL;
 	}
 
 }
