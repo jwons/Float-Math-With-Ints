@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdlib.h>
-#include <"chaseMantissa.h">
+#include "chaseMantissa.h"
 
 using namespace std;
 
@@ -20,6 +20,14 @@ using namespace std;
 
 bool mantissa(char numString[], int& numerator, int& denominator) {
 	
+	//clear the numerator and denominator
+	//make sure that there is nothing in the values to begin with
+	numerator = 0;
+	denominator = 10;
+
+	//this value holds whether or not the mantissa should be negative
+	bool isNegative = false;
+
 	//assume that it is a valid mantissa
 	bool isValid = false;
 
@@ -35,12 +43,20 @@ bool mantissa(char numString[], int& numerator, int& denominator) {
 	//also go through and validate that this is a valid mantissa
 	while(numString[currentPosition] != '\0') {
 
+		
+
 		//if the current cell in the array is a decimal point check whether or not
 		//the following character is a numarical value. If the second value is not
 		//a numerical value then break out of the for loop and end the function
 		if (numString[currentPosition] == DECIMAL) {
 			if (numString[currentPosition + 1] >= ZERO && numString[currentPosition + 1] <= NINE) {
 				isValid = true;
+
+				//check to see if the numbered entered is a mantissa without the characteristic
+				//and if it is negative
+				if (numString[currentPosition - 1] == '-' || (numString[currentPosition - 1] == '0' && numString[currentPosition - 2] == '-')) {
+					isNegative = true;
+				}
 
 				//increment the decimal position. the point that this increment is called
 				//will be the last time and we will have found the position of the decimal
@@ -77,7 +93,7 @@ bool mantissa(char numString[], int& numerator, int& denominator) {
 			of the trailing zeros and the length of the
 			mantissa. If it is the null terminator then
 			break out of the loop	*/
-		while (numString[currentPosition] != '\0') {
+		while (numString[currentPosition] != '\0' && (numString[currentPosition] >= ZERO && numString[currentPosition] <= NINE)) {
 			
 	
 
@@ -128,12 +144,17 @@ bool mantissa(char numString[], int& numerator, int& denominator) {
 			numerator = numerator / 10;
 		}
 
+		//if isNegative is true, then multiply the numerator by -1
+		//to convert it to negative
+		if (isNegative == true) {
+			numerator = numerator * (-1);
+		}
+
 		/*	the last thing we have to do is figure out the denominator.
 			to do this we have to multiply the denominator (which will
 			be set to 10 to begin with) by 10^length of mantissa		
 		*/
 
-		denominator = 10;
 		for (int i = 1; i < lengthOfMantissa; i++) {
 			denominator = denominator * 10;
 		}	
