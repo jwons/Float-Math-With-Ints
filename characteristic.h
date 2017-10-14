@@ -8,13 +8,15 @@ const int ASCII_ZERO = '0';
 const int ASCII_NINE = '9';
 const int ASCII_DECIMAL = '.';
 const int ASCII_DASH = '-';
+const int ASCII_PLUS = '+';
+const int ASCII_SPACE = ' ';
 
 //characteristic function prototype
 bool characteristic(char numString[], int& c);
 
 //helper function prototypes
-bool isNumber(char numStr[], int len, int& decimalLen);
-int toInt(char numStr[], int len);
+bool isNumber(char numStr[], int len, int& startIndex, int& decimalLen);
+int toInt(char numStr[], int startIndex, int len);
 int findStringLength(char str[]);
 
 
@@ -27,11 +29,14 @@ bool characteristic(char numString[], int& c)
 	//find length of string
 	int len = findStringLength(numString);
 
+	//initialize index to start converting to int at (in case there are valid but non-number digits in front)
+	int startIndex = 0;
+
 	//if all chars are either numbers, a decimal, or a negative sign
-	if (isNumber(numString, len, len))
+	if (isNumber(numString, len, startIndex, len))
 	{
 		//convert char array to an int
-		c = toInt(numString, len);
+		c = toInt(numString, startIndex, len);
 
 		retVal = true;
 	}
@@ -40,30 +45,69 @@ bool characteristic(char numString[], int& c)
 }
 
 //returns false if a char array holds anything other than a number, a decimal, or a negative sign
-bool isNumber(char numStr[], int len, int& decimalLen)
+bool isNumber(char numStr[], int len, int& startIndex, int& decimalLen)
 {
 	//return true by default
 	bool retVal = true;
 
-	//check for a negative sign at the beginning of the char array
-	if (numStr[0] != ASCII_DASH && (numStr[0] < ASCII_ZERO || numStr[0] > ASCII_NINE))
+	//create index variable
+	int index = 0;
+
+	//skip through any spaces at the beginning
+	while (numStr[index] == ASCII_SPACE)
+	{
+		index++;
+	}
+
+	//if the first proper char is invalid (the first proper char is the only one that can be a positive or negative sign)
+	if (numStr[index] != ASCII_DASH && numStr[index] != ASCII_PLUS && numStr[index] != ASCII_DECIMAL &&
+		(numStr[index] < ASCII_ZERO || numStr[index] > ASCII_NINE))
 	{
 		retVal = false;
 	}
-
-	//step through char array
-	for (int i = 1; i < len; i++)
+	//if the first proper char is a decimal there's no need for the loop
+	else if (numStr[index] == ASCII_DECIMAL)
 	{
-		//if char is a decimal
-		if (numStr[i] == ASCII_DECIMAL)
+		startIndex = index;
+		decimalLen = index;
+	}
+	else
+	{
+		//if the first proper char is a number or a negative sign toInt should start here
+		if ((numStr[index] > ASCII_ZERO && numStr[index] < ASCII_NINE) || numStr[index] == ASCII_DASH)
 		{
-			decimalLen = i;
+			startIndex = index;
 		}
-		//if char isn't a number
-		else if (numStr[i] < ASCII_ZERO || numStr[i] > ASCII_NINE)
+		else
 		{
-			retVal = false;
-			break;
+			startIndex = index + 1;
+		}
+
+		//increment index to start loop on the second proper char
+		index++;
+
+		//step through the rest of the char array
+		for (; index < len; index++)
+		{
+			//if char is a space, skip it
+			if (numStr[index] == ASCII_SPACE)
+			{
+				continue;
+			}
+			//if char is a decimal
+			else if (numStr[index] == ASCII_DECIMAL)
+			{
+				//we've found the end of the characteristic
+				decimalLen = index;
+				break;
+			}
+			//if char isn't a number
+			else if (numStr[index] < ASCII_ZERO || numStr[index] > ASCII_NINE)
+			{
+				//the input is invalid
+				retVal = false;
+				break;
+			}
 		}
 	}
 
@@ -71,26 +115,39 @@ bool isNumber(char numStr[], int len, int& decimalLen)
 }
 
 //turns a char array with a decimal into an int
-int toInt(char numStr[], int len)
+int toInt(char numStr[], int startIndex, int len)
 {
 	int result = 0;
 	int digit;
 	int orderOfMagnitude = 1;
 
 	//step through array
-	for (int i = len - 1; i >= 0; i++)
+	for (int i = len - 1; i >= startIndex; i--)
 	{
-		//turn char into an int
-		digit = numStr[i] - ASCII_ZERO;
+		//if char is a space, skip it
+		if (numStr[i] == ASCII_SPACE)
+		{
+			continue;
+		}
+		//if char is a negative sign, make result negative
+		else if (numStr[i] == ASCII_DASH)
+		{
+			result = result * -1;
+		}
+		else
+		{
+			//turn char into an int
+			digit = numStr[i] - ASCII_ZERO;
 
-		//put int at the correct order of magnitude
-		digit = digit * orderOfMagnitude;
+			//put int at the correct order of magnitude
+			digit = digit * orderOfMagnitude;
 
-		//add digit to result
-		result = result + digit;
+			//add digit to result
+			result = result + digit;
 
-		//increase the order of magnitude
-		orderOfMagnitude = orderOfMagnitude * 10;
+			//increase the order of magnitude
+			orderOfMagnitude = orderOfMagnitude * 10;
+		}
 	}
 
 	return result;

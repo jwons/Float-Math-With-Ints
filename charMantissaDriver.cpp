@@ -1,5 +1,7 @@
 #include <iostream>
 
+#include "header.h"
+
 using namespace std;
 
 void testCharacteristicAndMantissa();
@@ -20,6 +22,7 @@ int main()
 	//math function tests
 	testMath();
 
+	system("pause");
 	return 0;
 }
 //--
