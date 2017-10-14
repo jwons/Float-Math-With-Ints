@@ -1,1 +1,5 @@
-#include <multiply.c>
+#include "multiply.c"
+#include "subtract.h"
+#include "characteristic.h"
+#include "add.h"
+#include "mantissa.h"
