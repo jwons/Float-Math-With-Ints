@@ -28,7 +28,7 @@ int main()
 //--
 void testCharacteristicAndMantissa()
 {
-	/*shouldConvert("123.456", 123, 456, 1000);
+	shouldConvert("123.456", 123, 456, 1000);
 	shouldConvert("    123.456", 123, 456, 1000);
 	shouldConvert("123.456    ", 123, 456, 1000);
 	shouldConvert("    123.456    ", 123, 456, 1000);
@@ -82,9 +82,9 @@ void testCharacteristicAndMantissa()
 	shouldConvert("-00000123.45600000", -123, 456, 1000);
 
 	shouldConvert("123.00000456", 123, 456, 100000000);
-	shouldConvert("-123.00000456", -123, 456, 100000000);*/
+	shouldConvert("-123.00000456", -123, 456, 100000000);
 }
-/*//--
+//--
 void shouldConvert(char number[], int expectedCharacteristic, int expectedNumerator, int expectedDenominator)
 {
 	int c, n, d;
@@ -126,9 +126,9 @@ void shouldConvert(char number[], int expectedCharacteristic, int expectedNumera
 		cout << "Test failed: '" << number << "' "
 			<< "was NOT parsed when it should have been." << endl;
 	}
-}*/
+}
 //--
-/*void shouldNotConvert(char number[])
+void shouldNotConvert(char number[])
 {
 	int c, n, d;
 
@@ -138,18 +138,18 @@ void shouldConvert(char number[], int expectedCharacteristic, int expectedNumera
 		cout << "Test failed: '" << number << "' "
 			<< "was parsed when it should NOT have been." << endl;
 	}
-}*/
+}
 //--
 void testMath()
 {
 	//add
-	//testAdd();
-	//testSubtract();
+	testAdd();
+	testSubtract();
 	testMultiply();
-	//testDivide();
+	testDivide();
 }
 //--
-/*void testAdd()
+void testAdd()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
 	char shortArray[SHORT_ARRAY_LENGTH];
@@ -214,6 +214,7 @@ void testMath()
 	}
 }
 //--
+
 void testSubtract()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
@@ -277,7 +278,7 @@ void testSubtract()
 				<< endl;
 		}
 	}
-}*/
+}
 //--
 void testMultiply()
 {
@@ -333,7 +334,7 @@ void testMultiply()
 	//shouldConvert(largeArray, 1, 875, 1000);
 }
 //--
-/*void testDivide()
+void testDivide()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
 	char shortArray[SHORT_ARRAY_LENGTH];
@@ -405,4 +406,4 @@ void testMultiply()
 	//1.125 / 1.6R = "0.675"
 	divide(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
 	shouldConvert(largeArray, 0, 675, 1000);
-}*/
+}
