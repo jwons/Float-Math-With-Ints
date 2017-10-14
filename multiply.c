@@ -63,6 +63,9 @@ bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int
 	c1 = abs(c1);
 	c2 = abs(c2);
 
+	 
+
+
 	if (d1 == 0 && c1 != 0)
 	{
 		// No fractional part
@@ -111,6 +114,11 @@ bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int
 		}
 
 		result[0] = '-';
+	}
+
+	if ((c1 != 0) && (c2 >= (INT_MAX / c1)))
+	{
+		retVal = false;
 	}
 
 	return retVal;
