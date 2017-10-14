@@ -1,7 +1,8 @@
 #include <iostream>
-#include "Divide.h"
-#include "characteristic.h"
-#include "mantissa.h"
+#include <limits.h>
+
+#include "header.h"
+
 
 using namespace std;
 
@@ -149,6 +150,7 @@ void testMath()
 	testDivide();
 }
 //--
+
 void testadd()
 {
 	const int short_array_length = 5;
@@ -297,6 +299,42 @@ void testmultiply()
 	}
 
 	//0 * 0 = "0"
+
+	multiply(0, 0, 10, 0, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
+	shouldConvert(shortArray, 0, 0, 10);
+	multiply(0, 0, 10, 0, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
+	shouldConvert(mediumArray, 0, 0, 10);
+	multiply(0, 0, 10, 0, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
+	shouldConvert(largeArray, 0, 0, 10);
+
+	//3 * 2 = "6"
+	multiply(3, 0, 10, 2, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
+	shouldConvert(shortArray, 6, 0, 10);
+	multiply(3, 0, 10, 2, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
+	shouldConvert(mediumArray, 6, 0, 10);
+	multiply(3, 0, 10, 2, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
+	shouldConvert(largeArray, 6, 0, 10);
+
+	//3 * -1.5 = "-4.5"
+	multiply(3, 0, 10, -1, 1, 2, shortArray, SHORT_ARRAY_LENGTH);
+	shouldConvert(shortArray, -4, 5, 10);
+	multiply(3, 0, 10, -1, 1, 2, mediumArray, MEDIUM_ARRAY_LENGTH);
+	shouldConvert(mediumArray, -4, 5, 10);
+	multiply(3, 0, 10, -1, 1, 2, largeArray, LARGE_ARRAY_LENGTH);
+	shouldConvert(largeArray, -4, 5, 10);
+
+	//1.125 * 1.6R = "1.87"
+	multiply(1, 1, 8, 1, 2, 3, shortArray, SHORT_ARRAY_LENGTH);
+	shouldConvert(shortArray, 1, 87, 100);
+
+	//1.125 * 1.6R = "1.875"
+	multiply(1, 1, 8, 1, 2, 3, mediumArray, MEDIUM_ARRAY_LENGTH);
+	shouldConvert(mediumArray, 1, 875, 1000);
+
+	//1.125 * 1.6R = "1.875"
+	multiply(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
+	shouldConvert(largeArray, 1, 875, 1000);
+
 	multiply(0, 0, 10, 0, 0, 10, shortarray, short_array_length);
 	shouldconvert(shortarray, 0, 0, 10);
 	multiply(0, 0, 10, 0, 0, 10, mediumarray, medium_array_length);
@@ -345,10 +383,10 @@ void testDivide()
 	char largeArray[LARGE_ARRAY_LENGTH];
 
 	//should not be enough space in the array for the result
-	/*if (divide(INT_MAX, 0, 10, 1, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
+	if (divide(INT_MAX, 0, 10, 1, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
 		cout << "Error: not enough space in array" << endl;
-	}*/
+	}
 	//**INT_MAX overloads during the finalNumerator/finalDenomator calculation**
 
 	//cannot divide by zero
