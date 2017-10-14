@@ -292,7 +292,7 @@ char* buildMantissa(int numerator, int denominator, int numberOfCharacters)
 	}
 
 	// Make sure to add that null terminator
-	retVal[numberOfCharacters + 1] = '\0';
+	retVal[numberOfCharacters] = '\0';
 
 	return retVal;
 }
