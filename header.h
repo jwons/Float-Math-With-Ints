@@ -1,3 +1,1 @@
-#pragma once
-
-#include "multiply.c"
+#include <multiply.c>
