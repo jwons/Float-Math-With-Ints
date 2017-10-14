@@ -149,9 +149,9 @@ void testMath()
 	testMultiply();
 	testDivide();
 }
-
 //--
-void testAdd()
+
+void testadd()
 {
 	const int short_array_length = 5;
 	char shortarray[short_array_length];
@@ -216,9 +216,7 @@ void testAdd()
 	}
 }
 //--
-
-void testSubtract()
-
+void testsubtract()
 {
 	const int short_array_length = 5;
 	char shortarray[short_array_length];
