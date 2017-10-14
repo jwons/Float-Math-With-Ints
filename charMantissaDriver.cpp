@@ -3,6 +3,7 @@
 
 #include "header.h"
 
+
 using namespace std;
 
 void testCharacteristicAndMantissa();
@@ -28,7 +29,7 @@ int main()
 //--
 void testCharacteristicAndMantissa()
 {
-	/*shouldConvert("123.456", 123, 456, 1000);
+	shouldConvert("123.456", 123, 456, 1000);
 	shouldConvert("    123.456", 123, 456, 1000);
 	shouldConvert("123.456    ", 123, 456, 1000);
 	shouldConvert("    123.456    ", 123, 456, 1000);
@@ -82,9 +83,9 @@ void testCharacteristicAndMantissa()
 	shouldConvert("-00000123.45600000", -123, 456, 1000);
 
 	shouldConvert("123.00000456", 123, 456, 100000000);
-	shouldConvert("-123.00000456", -123, 456, 100000000);*/
+	shouldConvert("-123.00000456", -123, 456, 100000000);
 }
-/*//--
+//--
 void shouldConvert(char number[], int expectedCharacteristic, int expectedNumerator, int expectedDenominator)
 {
 	int c, n, d;
@@ -126,9 +127,9 @@ void shouldConvert(char number[], int expectedCharacteristic, int expectedNumera
 		cout << "Test failed: '" << number << "' "
 			<< "was NOT parsed when it should have been." << endl;
 	}
-}*/
+}
 //--
-/*void shouldNotConvert(char number[])
+void shouldNotConvert(char number[])
 {
 	int c, n, d;
 
@@ -138,202 +139,239 @@ void shouldConvert(char number[], int expectedCharacteristic, int expectedNumera
 		cout << "Test failed: '" << number << "' "
 			<< "was parsed when it should NOT have been." << endl;
 	}
-}*/
+}
 //--
 void testMath()
 {
 	//add
-	//testAdd();
-	//testSubtract();
+	testAdd();
+	testSubtract();
 	testMultiply();
-	//testDivide();
+	testDivide();
 }
 //--
-/*void testAdd()
+
+void testadd()
 {
-	const int SHORT_ARRAY_LENGTH = 5;
-	char shortArray[SHORT_ARRAY_LENGTH];
+	const int short_array_length = 5;
+	char shortarray[short_array_length];
 
-	const int MEDIUM_ARRAY_LENGTH = 10;
-	char mediumArray[MEDIUM_ARRAY_LENGTH];
+	const int medium_array_length = 10;
+	char mediumarray[medium_array_length];
 
-	const int LARGE_ARRAY_LENGTH = 20;
-	char largeArray[LARGE_ARRAY_LENGTH];
+	const int large_array_length = 20;
+	char largearray[large_array_length];
 
 	//should not be enough space in the array for the result
-	if (add(INT_MAX, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
+	if (add(int_max, 0, 10, int_max, 0, 10, shortarray, short_array_length))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "error: not enough space in array" << endl;
 	}
 
 	//0 + 0 = "0"
-	add(0, 0, 10, 0, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 0, 0, 10);
-	add(0, 0, 10, 0, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 0, 0, 10);
-	add(0, 0, 10, 0, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
-	shouldConvert(largeArray, 0, 0, 10);
+	add(0, 0, 10, 0, 0, 10, shortarray, short_array_length);
+	shouldconvert(shortarray, 0, 0, 10);
+	add(0, 0, 10, 0, 0, 10, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 0, 0, 10);
+	add(0, 0, 10, 0, 0, 10, largearray, large_array_length);
+	shouldconvert(largearray, 0, 0, 10);
 
 	//1 + 1 = "2"
-	add(1, 0, 10, 1, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 2, 0, 10);
-	add(1, 0, 10, 1, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 2, 0, 10);
-	add(1, 0, 10, 1, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
-	shouldConvert(largeArray, 2, 0, 10);
+	add(1, 0, 10, 1, 0, 10, shortarray, short_array_length);
+	shouldconvert(shortarray, 2, 0, 10);
+	add(1, 0, 10, 1, 0, 10, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 2, 0, 10);
+	add(1, 0, 10, 1, 0, 10, largearray, large_array_length);
+	shouldconvert(largearray, 2, 0, 10);
 
 	//1 + -1.5 = "-.5"
-	add(1, 0, 10, -1, 1, 2, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 0, -5, 10);
-	add(1, 0, 10, -1, 1, 2, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 0, -5, 10);
-	add(1, 0, 10, -1, 1, 2, largeArray, LARGE_ARRAY_LENGTH);
-	shouldConvert(largeArray, 0, -5, 10);
+	add(1, 0, 10, -1, 1, 2, shortarray, short_array_length);
+	shouldconvert(shortarray, 0, -5, 10);
+	add(1, 0, 10, -1, 1, 2, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 0, -5, 10);
+	add(1, 0, 10, -1, 1, 2, largearray, large_array_length);
+	shouldconvert(largearray, 0, -5, 10);
 
-	//1.125 + 1.6R = "2.79"
-	add(1, 1, 8, 1, 2, 3, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 2, 79, 100);
+	//1.125 + 1.6r = "2.79"
+	add(1, 1, 8, 1, 2, 3, shortarray, short_array_length);
+	shouldconvert(shortarray, 2, 79, 100);
 
-	//1.125 + 1.6R = "2.7916666"
-	add(1, 1, 8, 1, 2, 3, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 2, 7916666, 10000000);
+	//1.125 + 1.6r = "2.7916666"
+	add(1, 1, 8, 1, 2, 3, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 2, 7916666, 10000000);
 
-	//1.125 + 1.6R = "2.79166666666666666"
-	add(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
+	//1.125 + 1.6r = "2.79166666666666666"
+	add(1, 1, 8, 1, 2, 3, largearray, large_array_length);
 	//can't use the convert function because the num/denom would overflow
-	char expectedResult[] = "2.79166666666666666";
-	for (int i = 0; i < LARGE_ARRAY_LENGTH; i++)
+	char expectedresult[] = "2.79166666666666666";
+	for (int i = 0; i < large_array_length; i++)
 	{
-		if (expectedResult[i] != largeArray[i])
+		if (expectedresult[i] != largearray[i])
 		{
-			cout << "Error: mismatch in C strings in add()." << endl
-				<< "Expected: " << expectedResult << " "
-				<< "Actual: " << largeArray
+			cout << "error: mismatch in c strings in add()." << endl
+				<< "expected: " << expectedresult << " "
+				<< "actual: " << largearray
 				<< endl;
 		}
 	}
 }
 //--
-void testSubtract()
+void testsubtract()
 {
-	const int SHORT_ARRAY_LENGTH = 5;
-	char shortArray[SHORT_ARRAY_LENGTH];
+	const int short_array_length = 5;
+	char shortarray[short_array_length];
 
-	const int MEDIUM_ARRAY_LENGTH = 10;
-	char mediumArray[MEDIUM_ARRAY_LENGTH];
+	const int medium_array_length = 10;
+	char mediumarray[medium_array_length];
 
-	const int LARGE_ARRAY_LENGTH = 20;
-	char largeArray[LARGE_ARRAY_LENGTH];
+	const int large_array_length = 20;
+	char largearray[large_array_length];
 
 	//should not be enough space in the array for the result
-	if (subtract(INT_MIN, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
+	if (subtract(int_min, 0, 10, int_max, 0, 10, shortarray, short_array_length))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "error: not enough space in array" << endl;
 	}
 
 	//0 - 0 = "0"
-	subtract(0, 0, 10, 0, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 0, 0, 10);
-	subtract(0, 0, 10, 0, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 0, 0, 10);
-	subtract(0, 0, 10, 0, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
-	shouldConvert(largeArray, 0, 0, 10);
+	subtract(0, 0, 10, 0, 0, 10, shortarray, short_array_length);
+	shouldconvert(shortarray, 0, 0, 10);
+	subtract(0, 0, 10, 0, 0, 10, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 0, 0, 10);
+	subtract(0, 0, 10, 0, 0, 10, largearray, large_array_length);
+	shouldconvert(largearray, 0, 0, 10);
 
 	//2 - 1 = "1"
-	subtract(2, 0, 10, 1, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 1, 0, 10);
-	subtract(2, 0, 10, 1, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 1, 0, 10);
-	subtract(2, 0, 10, 1, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
-	shouldConvert(largeArray, 1, 0, 10);
+	subtract(2, 0, 10, 1, 0, 10, shortarray, short_array_length);
+	shouldconvert(shortarray, 1, 0, 10);
+	subtract(2, 0, 10, 1, 0, 10, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 1, 0, 10);
+	subtract(2, 0, 10, 1, 0, 10, largearray, large_array_length);
+	shouldconvert(largearray, 1, 0, 10);
 
 	//1 - -1.5 = "2.5"
-	subtract(1, 0, 10, -1, 1, 2, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 2, 5, 10);
-	subtract(1, 0, 10, -1, 1, 2, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 2, 5, 10);
-	subtract(1, 0, 10, -1, 1, 2, largeArray, LARGE_ARRAY_LENGTH);
-	shouldConvert(largeArray, 2, 5, 10);
+	subtract(1, 0, 10, -1, 1, 2, shortarray, short_array_length);
+	shouldconvert(shortarray, 2, 5, 10);
+	subtract(1, 0, 10, -1, 1, 2, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 2, 5, 10);
+	subtract(1, 0, 10, -1, 1, 2, largearray, large_array_length);
+	shouldconvert(largearray, 2, 5, 10);
 
-	//1.125 - 1.6R = "-.54"
-	subtract(1, 1, 8, 1, 2, 3, shortArray, SHORT_ARRAY_LENGTH);
-	shouldConvert(shortArray, 0, -54, 100);
+	//1.125 - 1.6r = "-.54"
+	subtract(1, 1, 8, 1, 2, 3, shortarray, short_array_length);
+	shouldconvert(shortarray, 0, -54, 100);
 
-	//1.125 - 1.6R = "-.5416666"
-	subtract(1, 1, 8, 1, 2, 3, mediumArray, MEDIUM_ARRAY_LENGTH);
-	shouldConvert(mediumArray, 0, -5416666, 10000000);
+	//1.125 - 1.6r = "-.5416666"
+	subtract(1, 1, 8, 1, 2, 3, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 0, -5416666, 10000000);
 
-	//1.125 - 1.6R = "-.54166666666666666"
-	subtract(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
+	//1.125 - 1.6r = "-.54166666666666666"
+	subtract(1, 1, 8, 1, 2, 3, largearray, large_array_length);
 	//can't use the convert function because the num/denom would overflow
-	char expectedResult[] = "-.54166666666666666";
-	for (int i = 0; i < LARGE_ARRAY_LENGTH; i++)
+	char expectedresult[] = "-.54166666666666666";
+	for (int i = 0; i < large_array_length; i++)
 	{
-		if (expectedResult[i] != largeArray[i])
+		if (expectedresult[i] != largearray[i])
 		{
-			cout << "Error: mismatch in C strings in subtract()." << endl
-				<< "Expected: " << expectedResult << " "
-				<< "Actual: " << largeArray
+			cout << "error: mismatch in c strings in subtract()." << endl
+				<< "expected: " << expectedresult << " "
+				<< "actual: " << largearray
 				<< endl;
 		}
 	}
-}*/
+}
 //--
-void testMultiply()
+void testmultiply()
 {
-	const int SHORT_ARRAY_LENGTH = 5;
-	char shortArray[SHORT_ARRAY_LENGTH];
+	const int short_array_length = 5;
+	char shortarray[short_array_length];
 
-	const int MEDIUM_ARRAY_LENGTH = 10;
-	char mediumArray[MEDIUM_ARRAY_LENGTH];
+	const int medium_array_length = 10;
+	char mediumarray[medium_array_length];
 
-	const int LARGE_ARRAY_LENGTH = 20;
-	char largeArray[LARGE_ARRAY_LENGTH];
+	const int large_array_length = 20;
+	char largearray[large_array_length];
 
 	//should not be enough space in the array for the result
-	if (multiply(INT_MAX, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
+	if (multiply(int_max, 0, 10, int_max, 0, 10, shortarray, short_array_length))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "error: not enough space in array" << endl;
 	}
 
 	//0 * 0 = "0"
+
 	multiply(0, 0, 10, 0, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
-	//shouldConvert(shortArray, 0, 0, 10);
+	shouldConvert(shortArray, 0, 0, 10);
 	multiply(0, 0, 10, 0, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
-	//shouldConvert(mediumArray, 0, 0, 10);
+	shouldConvert(mediumArray, 0, 0, 10);
 	multiply(0, 0, 10, 0, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
-	//shouldConvert(largeArray, 0, 0, 10);
+	shouldConvert(largeArray, 0, 0, 10);
 
 	//3 * 2 = "6"
 	multiply(3, 0, 10, 2, 0, 10, shortArray, SHORT_ARRAY_LENGTH);
-	//shouldConvert(shortArray, 6, 0, 10);
+	shouldConvert(shortArray, 6, 0, 10);
 	multiply(3, 0, 10, 2, 0, 10, mediumArray, MEDIUM_ARRAY_LENGTH);
-	//shouldConvert(mediumArray, 6, 0, 10);
+	shouldConvert(mediumArray, 6, 0, 10);
 	multiply(3, 0, 10, 2, 0, 10, largeArray, LARGE_ARRAY_LENGTH);
-	//shouldConvert(largeArray, 6, 0, 10);
+	shouldConvert(largeArray, 6, 0, 10);
 
 	//3 * -1.5 = "-4.5"
 	multiply(3, 0, 10, -1, 1, 2, shortArray, SHORT_ARRAY_LENGTH);
-	//shouldConvert(shortArray, -4, 5, 10);
+	shouldConvert(shortArray, -4, 5, 10);
 	multiply(3, 0, 10, -1, 1, 2, mediumArray, MEDIUM_ARRAY_LENGTH);
-	//shouldConvert(mediumArray, -4, 5, 10);
+	shouldConvert(mediumArray, -4, 5, 10);
 	multiply(3, 0, 10, -1, 1, 2, largeArray, LARGE_ARRAY_LENGTH);
-	//shouldConvert(largeArray, -4, 5, 10);
+	shouldConvert(largeArray, -4, 5, 10);
 
 	//1.125 * 1.6R = "1.87"
 	multiply(1, 1, 8, 1, 2, 3, shortArray, SHORT_ARRAY_LENGTH);
-	//shouldConvert(shortArray, 1, 87, 100);
+	shouldConvert(shortArray, 1, 87, 100);
 
 	//1.125 * 1.6R = "1.875"
 	multiply(1, 1, 8, 1, 2, 3, mediumArray, MEDIUM_ARRAY_LENGTH);
-	//shouldConvert(mediumArray, 1, 875, 1000);
+	shouldConvert(mediumArray, 1, 875, 1000);
 
 	//1.125 * 1.6R = "1.875"
 	multiply(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
-	//shouldConvert(largeArray, 1, 875, 1000);
+	shouldConvert(largeArray, 1, 875, 1000);
+
+	multiply(0, 0, 10, 0, 0, 10, shortarray, short_array_length);
+	shouldconvert(shortarray, 0, 0, 10);
+	multiply(0, 0, 10, 0, 0, 10, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 0, 0, 10);
+	multiply(0, 0, 10, 0, 0, 10, largearray, large_array_length);
+	shouldconvert(largearray, 0, 0, 10);
+
+	//3 * 2 = "6"
+	multiply(3, 0, 10, 2, 0, 10, shortarray, short_array_length);
+	shouldconvert(shortarray, 6, 0, 10);
+	multiply(3, 0, 10, 2, 0, 10, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 6, 0, 10);
+	multiply(3, 0, 10, 2, 0, 10, largearray, large_array_length);
+	shouldconvert(largearray, 6, 0, 10);
+
+	//3 * -1.5 = "-4.5"
+	multiply(3, 0, 10, -1, 1, 2, shortarray, short_array_length);
+	shouldconvert(shortarray, -4, 5, 10);
+	multiply(3, 0, 10, -1, 1, 2, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, -4, 5, 10);
+	multiply(3, 0, 10, -1, 1, 2, largearray, large_array_length);
+	shouldconvert(largearray, -4, 5, 10);
+
+	//1.125 * 1.6r = "1.87"
+	multiply(1, 1, 8, 1, 2, 3, shortarray, short_array_length);
+	shouldconvert(shortarray, 1, 87, 100);
+
+	//1.125 * 1.6r = "1.875"
+	multiply(1, 1, 8, 1, 2, 3, mediumarray, medium_array_length);
+	shouldconvert(mediumarray, 1, 875, 1000);
+
+	//1.125 * 1.6r = "1.875"
+	multiply(1, 1, 8, 1, 2, 3, largearray, large_array_length);
+	shouldconvert(largearray, 1, 875, 1000);
 }
 //--
-/*void testDivide()
+void testDivide()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
 	char shortArray[SHORT_ARRAY_LENGTH];
@@ -349,6 +387,7 @@ void testMultiply()
 	{
 		cout << "Error: not enough space in array" << endl;
 	}
+	//**INT_MAX overloads during the finalNumerator/finalDenomator calculation**
 
 	//cannot divide by zero
 	if (divide(10, 0, 10, 0, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
@@ -405,4 +444,4 @@ void testMultiply()
 	//1.125 / 1.6R = "0.675"
 	divide(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
 	shouldConvert(largeArray, 0, 675, 1000);
-}*/
+}
