@@ -15,54 +15,63 @@ void denomonaterfix(int &nthis,int &dthis,int dother);
 bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char* result, int len)
 {
 
+	//checks for int overflow 
+	bool returnvalue=true;
+	if (c1 > INT_MAX / 10 || c1 < INT_MIN / 10 || c2 > INT_MAX / 10 || c2 < INT_MIN / 10||n1 > INT_MAX / 10 || n1 < INT_MIN / 10 || n2 > INT_MAX / 10 || n2 < INT_MIN / 10 || d1 > INT_MAX / 10 || d2 > INT_MAX / 10)
+		returnvalue = false;
 
-	//stores the leftover from the mantissa subtraction
-	int leftover = 0;
-	//converts int to char
-	const int inttochar = 48;
-	int nfinal = 0;
-	int dfinal = 0;
-	bool ispos = true;
-	int cfinal = c1 - c2;
-	if (c1 < 0)
-		n1 = n1 *-1;
-	if (c2 < 0)
-		n2 = n2 *-1;
-	bool repeating1 = false;
-	bool repeating2 = false;
-	//finds proper decimals
-	simplify(n1, d1, len,repeating1);
-	simplify(n2, d2, len,repeating2);
-	if (repeating1 == true)
-		denomonaterfix(n1,d1,d2);
-	if (repeating2 == true)
-		denomonaterfix(n2,d2,d1);
-	if (repeating1 == false && repeating2 == false)
-	{
-		dfinal = d1*d2;
-		n1 = n1*d2;
-		n2 = n2*d1;
-	}
+
 	else
-		dfinal = d1;
-	int n1lastvalue = intatpos(n1, 1);
-	int n2lastvalue = intatpos(n2, 1);
+	{
+		//stores the leftover from the mantissa subtraction
+		int leftover = 0;
+		//converts int to char
+		const int inttochar = 48;
+		int nfinal = 0;
+		int dfinal = 0;
+		bool ispos = true;
+		if (c1 < 0)
+			n1 = n1 *-1;
+		if (c2 < 0)
+			n2 = n2 *-1;
+		bool repeating1 = false;
+		bool repeating2 = false;
+		//finds proper decimals
+		simplify(n1, d1, len, repeating1);
+		simplify(n2, d2, len, repeating2);
+		if (repeating1 == true)
+			denomonaterfix(n1, d1, d2);
+		if (repeating2 == true)
+			denomonaterfix(n2, d2, d1);
+		if (repeating1 == false && repeating2 == false)
+		{
+			dfinal = d1*d2;
+			n1 = n1*d2;
+			n2 = n2*d1;
+		}
+		else
+			dfinal = d1;
+		int n1lastvalue = intatpos(n1, 1);
+		int n2lastvalue = intatpos(n2, 1);
 
 
 
-	//finds a common denominator 
+		//finds a common denominator 
 
-	nfinal = n1 - n2;
-	if (nfinal == 0)
-		dfinal = 10;
-
-	//handels the diffrent casses 
-	mantissasubtraction(n1, n2, d1, d2, leftover, nfinal, dfinal, cfinal, ispos);
+		nfinal = n1 - n2;
+		if (nfinal == 0)
+			dfinal = 10;
 
 
-	//now all parts are known 
-	//stores the result in result
-	bool returnvalue = storevalues(cfinal, nfinal, dfinal, result, len, ispos, inttochar,repeating1,repeating2,n1lastvalue,n2lastvalue);
+		int cfinal = c1 - c2;
+		//handels the diffrent casses 
+		mantissasubtraction(n1, n2, d1, d2, leftover, nfinal, dfinal, cfinal, ispos);
+
+
+		//now all parts are known 
+		//stores the result in result
+		bool returnvalue = storevalues(cfinal, nfinal, dfinal, result, len, ispos, inttochar, repeating1, repeating2, n1lastvalue, n2lastvalue);
+	}
 	return returnvalue;
 }
 
