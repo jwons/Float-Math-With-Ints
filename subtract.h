@@ -12,9 +12,6 @@ void denomonaterfix(int &nthis,int &dthis,int dother);
 
 
 
-
-
-
 bool subtract(int c1, int n1, int d1, int c2, int n2, int d2, char* result, int len)
 {
 
@@ -171,7 +168,6 @@ void mantissasubtraction(int &n1, int &n2, int &d1, int &d2, int &leftover, int 
 		cfinal = cfinal *-1;
 		ispos = false;
 	}
-
 
 	//only other option is that they are positive 
 	return;

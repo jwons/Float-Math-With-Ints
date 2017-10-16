@@ -1,5 +1,7 @@
+#pragma once
 #include <iostream> // For cout
 #include <stdlib.h> // For malloc()
+#include <limits.h>
 
 using namespace std;
 
@@ -34,10 +36,6 @@ bool isResultNegative(int c1, int c2);
 void testFunctions();
 // ------------------- 
 
-int main()
-{
-	testFunctions();
-}
 
 bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int len)
 {
@@ -117,6 +115,13 @@ bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int
 		result[0] = '-';
 	}
 
+	result[len-1] = '\0';
+
+	if (c1 != 0 && (c2 > INT_MAX / c1))
+	{
+		retVal = false;
+	}
+
 	return retVal;
 }
 
@@ -145,6 +150,11 @@ int getNumberOfDigits(int number)
 	{
 		currentPlaceValue *= 10;
 		retVal += 1;
+	}
+
+	if (retVal == 0)
+	{
+		retVal++;
 	}
 
 	return retVal;
@@ -181,6 +191,8 @@ bool buildString(int numerator, int denominator, char * result, int len)
 		Returns - True if everything was succesful
 				- False if something went wrong
 	*/
+
+
 
 	char * characteristic = buildCharacteristic(numerator, denominator);
 	char * mantissa       = buildMantissa(numerator, denominator, len);
@@ -249,6 +261,7 @@ char * buildCharacteristic(int numerator, int denominator)
 
 	// +1 to account for the \0
 	char * retVal = (char*)malloc(characteristicDigitCount+1);
+
 	clearArray(retVal, characteristicDigitCount+1);
 
 	// Fill the return array with converted numbers
@@ -267,16 +280,18 @@ char * buildCharacteristic(int numerator, int denominator)
 char* buildMantissa(int numerator, int denominator, int numberOfCharacters)
 {
 	// Get rid of the characteristic
-	int dividor = numerator / denominator;
+	int dividor = calcCharacteristic(numerator, denominator);
 	numerator -= dividor * denominator;
 
 	// Again +1 to account for the \0
-	char* retVal = (char*)malloc(numberOfCharacters+1);
+	char* retVal = (char*)malloc(numberOfCharacters + 1);
+	clearArray(retVal, numberOfCharacters + 1);
+
 
 	// Code version of long division
 	for (int i = 0; i <= numberOfCharacters; i++)
 	{
-		int nextVal = numerator / denominator;
+		int nextVal = calcCharacteristic(numerator, denominator);
 		retVal[i] = numberToChar(nextVal);
 
 		numerator -= denominator * nextVal;
@@ -290,7 +305,7 @@ char* buildMantissa(int numerator, int denominator, int numberOfCharacters)
 	}
 
 	// Make sure to add that null terminator
-	retVal[numberOfCharacters+1] = '\0';
+	retVal[numberOfCharacters] = '\0';
 
 	return retVal;
 }
@@ -384,7 +399,14 @@ int calcMantissa(int numerator, int denominator, int numPlaceValues)
 // Calculates the characteristic for the given number
 int calcCharacteristic(int numerator, int denominator)
 {
-	return (numerator / denominator);
+	int retVal = 0;
+
+	if (denominator != 0)
+	{
+		retVal = (numerator / denominator);
+	}
+
+	return retVal;
 }
 
 void clearArray(char * array, int len)
@@ -521,6 +543,10 @@ void testFunctions()
 	multiply(5, 10, 45, 0, 0, 0, test, 20);
 	cout << "(0)        5 10/45 * 0       -> " << test << endl;
 	clearArray(test, 20);
+
+	// Both Zero
+	multiply(0, 0, 0, 0, 0, 0, test, 20);
+	cout << "(0)        0 0/0   * 0       -> " << test << endl;
 
 	cout << endl;
 
