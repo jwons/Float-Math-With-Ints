@@ -163,8 +163,6 @@ void testAdd()
 	const int LARGE_ARRAY_LENGTH = 20;
 	char largeArray[LARGE_ARRAY_LENGTH];
 
-
-	cout << "In add" << endl;
 	//should not be enough space in the array for the result
 	if (add(INT_MAX, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
@@ -230,7 +228,6 @@ void testSubtract()
 	const int LARGE_ARRAY_LENGTH = 20;
 	char largeArray[LARGE_ARRAY_LENGTH];
 
-	cout << "In Subtract" << endl;
 	//should not be enough space in the array for the result
 	if (subtract(INT_MIN, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
@@ -356,7 +353,6 @@ void testDivide()
 		cout << "Error: not enough space in array" << endl;
 	}
 
-	cout << "In Divide" << endl;
 	//cannot divide by zero
 	if (divide(10, 0, 10, 0, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
