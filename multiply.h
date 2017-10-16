@@ -115,6 +115,8 @@ bool multiply(int c1, int n1, int d1, int c2, int n2, int d2, char result[], int
 		result[0] = '-';
 	}
 
+	result[len-1] = '\0';
+
 	if (c1 != 0 && (c2 > INT_MAX / c1))
 	{
 		retVal = false;
@@ -189,6 +191,8 @@ bool buildString(int numerator, int denominator, char * result, int len)
 		Returns - True if everything was succesful
 				- False if something went wrong
 	*/
+
+
 
 	char * characteristic = buildCharacteristic(numerator, denominator);
 	char * mantissa       = buildMantissa(numerator, denominator, len);

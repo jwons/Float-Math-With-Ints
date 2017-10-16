@@ -9,10 +9,10 @@ void shouldConvert(char number[], int expectedCharacteristic, int expectedNumera
 void shouldNotConvert(char number[]);
 
 void testMath();
-//void testAdd();
-//void testSubtract();
+void testAdd();
+void testSubtract();
 void testMultiply();
-//void testDivide();
+void testDivide();
 
 int main()
 {
@@ -146,14 +146,13 @@ void shouldNotConvert(char number[])
 //--
 void testMath()
 {
-	//add
-	//testAdd();
-	//testSubtract();
+	testAdd();
+	testSubtract();
 	testMultiply();
-	//testDivide();
+	testDivide();
 }
 //--
-/*void testAdd()
+void testAdd()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
 	char shortArray[SHORT_ARRAY_LENGTH];
@@ -218,9 +217,9 @@ void testMath()
 				<< endl;
 		}
 	}
-}*/
+}
 //--
-/*void testSubtract()
+void testSubtract()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
 	char shortArray[SHORT_ARRAY_LENGTH];
@@ -284,7 +283,7 @@ void testMath()
 				<< endl;
 		}
 	}
-}*/
+}
 //--
 void testMultiply()
 {
@@ -297,7 +296,6 @@ void testMultiply()
 	const int LARGE_ARRAY_LENGTH = 20;
 	char largeArray[LARGE_ARRAY_LENGTH];
 
-	cout << "In Multiply" << endl;
 	//should not be enough space in the array for the result
 	if (multiply(INT_MAX, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
@@ -341,7 +339,7 @@ void testMultiply()
 	shouldConvert(largeArray, 1, 875, 1000);
 }
 //--
-/*void testDivide()
+void testDivide()
 {
 	const int SHORT_ARRAY_LENGTH = 5;
 	char shortArray[SHORT_ARRAY_LENGTH];
@@ -414,4 +412,4 @@ void testMultiply()
 	//1.125 / 1.6R = "0.675"
 	divide(1, 1, 8, 1, 2, 3, largeArray, LARGE_ARRAY_LENGTH);
 	shouldConvert(largeArray, 0, 675, 1000);
-}*/
+}
