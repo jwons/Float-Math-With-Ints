@@ -1,6 +1,11 @@
 #include <iostream>
 
-#include "header.h"
+#include "add.h"
+#include "characteristic.h"
+#include "Divide.h"
+#include "mantissa.h"
+#include "multiply.h"
+#include "subtract.h"
 
 using namespace std;
 
@@ -166,7 +171,7 @@ void testAdd()
 	//should not be enough space in the array for the result
 	if (add(INT_MAX, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "Error in testAdd: not enough space in array" << endl;
 	}
 
 	//0 + 0 = "0"
@@ -231,7 +236,7 @@ void testSubtract()
 	//should not be enough space in the array for the result
 	if (subtract(INT_MIN, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "Error in testSubtract: not enough space in array" << endl;
 	}
 
 	//0 - 0 = "0"
@@ -296,7 +301,7 @@ void testMultiply()
 	//should not be enough space in the array for the result
 	if (multiply(INT_MAX, 0, 10, INT_MAX, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "Error in testMultiply: not enough space in array" << endl;
 	}
 
 	//0 * 0 = "0"
@@ -350,7 +355,7 @@ void testDivide()
 	//should not be enough space in the array for the result
 	if (divide(INT_MAX, 0, 10, 1, 0, 10, shortArray, SHORT_ARRAY_LENGTH))
 	{
-		cout << "Error: not enough space in array" << endl;
+		cout << "Error in testDivide: not enough space in array" << endl;
 	}
 
 	//cannot divide by zero
