@@ -16,6 +16,10 @@ bool divide(int c1, int n1, int d1, int c2, int n2, int d2, char answer[], int l
 	{
 		retVal = false;
 	}
+	if (c1 > INT_MAX / 10)
+	{
+		retVal = false;
+	}
 
 	if (retVal == true)
 	{
@@ -79,7 +83,7 @@ bool divide(int c1, int n1, int d1, int c2, int n2, int d2, char answer[], int l
 
 		//first # 
 		num = finalNumerator / finalDenominator;
-		
+
 		int digit_count = digitCount(num);
 		if (digit_count > length)
 		{
